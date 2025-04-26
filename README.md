@@ -11,6 +11,15 @@ It simulates the impact of rising summer temperatures and provides actionable in
     <li>Propose data-driven strategies for mitigating peak demand pressures without costly infrastructure expansion.</li>
   </ul></p>
 
+<br>
+<h1>📈 Key Insights</h1>
+<ul>
+  <li><b>Temperature Sensitivity:</b> Energy consumption rises sharply with temperature increases, particularly for cooling systems.</li>
+  <li><b>Peak Load Hours:</b Usage consistently peaks between 3 PM to 7 PM.</li>
+  <li><b>Home Characteristics:</b> Larger homes and those with additional stories show higher energy sensitivity to temperature changes.</li>
+  <li><b>Forecast Results:</b> A simulated 5°C warming scenario projected a ~21% increase in average energy consumption.</li>
+</ul>
+
  <br>
  <h1>🛠 Technologies Used</h1>
  <ul>
