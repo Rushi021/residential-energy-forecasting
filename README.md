@@ -9,3 +9,5 @@ It simulates the impact of rising summer temperatures and provides actionable in
     <li>Identify key drivers of electricity consumption across different households.</li>
     <li>Propose data-driven strategies for mitigating peak demand pressures without costly infrastructure expansion.</li>
   </ul></p>
+
+  <h1>🛠 Technologies Used</h1>
