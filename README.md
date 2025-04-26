@@ -14,7 +14,7 @@ It simulates the impact of rising summer temperatures and provides actionable in
  <br>
  <h1>🛠 Technologies Used</h1>
  <ul>
-   <li>R Programming Language</li>
+   <li><b>R Programming Language</b></li>
    <li><b>Packages:</b> arrow, dplyr, lubridate, ggplot2, quanteda, randomForest, e1071</li>
    <li><b>Visualization:</b> ggplot2, viridis</li>
    <li><b>Shiny:</b> </li>
