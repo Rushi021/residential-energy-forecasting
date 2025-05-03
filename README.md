@@ -9,6 +9,7 @@ It simulates the impact of rising summer temperatures and provides actionable in
     <li>Forecast residential energy usage during hotter-than-average summer conditions.</li>
     <li>Identify key drivers of electricity consumption across different households.</li>
     <li>Propose data-driven strategies for mitigating peak demand pressures without costly infrastructure expansion.</li>
+    <li>Simulate a +5°F increase to forecast potential energy spikes.</li>
   </ul></p>
 
 <br>
@@ -24,7 +25,7 @@ It simulates the impact of rising summer temperatures and provides actionable in
  <h1>🛠 Technologies Used</h1>
  <ul>
    <li><b>R Programming Language</b></li>
-   <li><b>Packages:</b> arrow, tidyverse, readr, dplyr, lubridate, ggplot2, quanteda, randomForest, e1071</li>
+   <li><b>Packages:</b> arrow, caret, dplyr, e1071, ggplot2, lubridate, Metrics, purrr, quanteda, randomForest, readr, shiny, sf, tidyverse, tigris, xgboost, leaflet</li>
    <li><b>Visualization:</b> ggplot2, viridis</li>
-   <li><b>Shiny:</b> </li>
+   <li><b>Shiny: </b> </li>
  </ul>
