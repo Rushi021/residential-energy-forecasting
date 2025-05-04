@@ -24,8 +24,19 @@ It simulates the impact of rising summer temperatures and provides actionable in
  <br>
  <h1>🛠 Technologies Used</h1>
  <ul>
-   <li><b>R Programming Language</b></li>
+   <li><b>Programming Language:</b> R</li>
    <li><b>Packages:</b> arrow, caret, dplyr, e1071, ggplot2, lubridate, Metrics, purrr, quanteda, randomForest, readr, shiny, sf, tidyverse, tigris, xgboost, leaflet</li>
    <li><b>Visualization:</b> ggplot2, viridis</li>
-   <li><b>Shiny: </b> </li>
+   <li><b>App Deployment:</b> Shiny Web App</li>
  </ul>
+
+ <br>
+ <h1>🔧 Data Preprocessing</h1>
+
+
+ <br>
+ <h1>📊 Data Visualization</h1>
+
+
+ <br>
+ <h1>💻 Shiny Dashboard Features</h1>
