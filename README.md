@@ -32,10 +32,18 @@ It simulates the impact of rising summer temperatures and provides actionable in
 
  <br>
  <h1>🔧 Data Preprocessing</h1>
-
+ <ul>
+   <li>Loaded and merged data from multiple sources (energy, weather, static house info).</li>
+   <li>Addressed missing values using methods like median imputation and NA flagging.</li>
+   <li>Standardized timestamps and filtered for complete July datasets (744 hours x 5000 houses).</li>
+   <li>Applied feature engineering, including hour-of-day and weekday indicators.</li>
+ </ul>
 
  <br>
  <h1>📊 Data Visualization</h1>
+ <ul>
+   <li>Derived strategic insights through exploratory data analysis and advanced ggplot2 visualizations, identifying temporal, geographic, and structural drivers of peak energy demand that informed model architecture and utility planning decisions.</li>
+ </ul>
 
 
  <br>
