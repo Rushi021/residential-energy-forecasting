@@ -43,21 +43,7 @@ It simulates the impact of rising summer temperatures and provides actionable in
  <h1>📊 Data Visualization</h1>
  <ul>
    <li>Derived strategic insights through exploratory data analysis and advanced ggplot2 visualizations, identifying temporal, geographic, and structural drivers of peak energy demand that informed model architecture and utility planning decisions.</li>
- </ul>
-
-
- <h3>🧾 Final Project Code</h3>
- <p>The complete R Markdown file for this project is now available here: 
-   <br>📄 <a href="./IST_687_Final_Project_Code.Rmd">IST_687_Final_Project_Code.Rmd</a></p>
-   <p>This file includes:</p>
-   <ul>
-     <li>Data cleaning, integration, and preprocessing</li>
-     <li>Feature engineering and exploratory visualizations</li>
-     <li>Forecast modeling using Random Forest</li> 
-     <li>Simulation analysis with a +5°F temperature increase</li>
-     <li>Statistical summaries and insights</li>
-   </ul>
-   
+ </ul>   
 
  <br>
  <h1>💻 Shiny Dashboard Features</h1>
@@ -103,4 +89,16 @@ It simulates the impact of rising summer temperatures and provides actionable in
   <li>A second heatmap shows <strong>forecasted county-wise energy usage</strong> under the +5°F scenario.</li>
   <li>Enables comparison between current and predicted loads to support energy infrastructure planning and resilience strategies.</li>
 </ul>
+
+<h3>🧾 Final Project Code</h3>
+<p>The complete R Markdown file for this project is now available here: <br><b>IST_687_Final_Project_Code.Rmd</b></p>
+<p>This file includes:</p>
+<ul>
+  <li>Data cleaning, integration, and preprocessing</li>
+  <li>Feature engineering and exploratory visualizations</li>
+  <li>Forecast modeling using Random Forest</li>
+  <li>Simulation analysis with a +5°F temperature increase</li>
+  <li>Statistical summaries and insights</li>
+</ul>
+
 
