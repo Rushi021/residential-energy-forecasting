@@ -1,4 +1,4 @@
-<h1>📚 Project Overview</h1>
+2<h1>📚 Project Overview</h1>
 <p>This project focuses on forecasting residential energy usage and uncovering consumption patterns by integrating home characteristics, hourly weather data, and energy consumption records.
 It simulates the impact of rising summer temperatures and provides actionable insights to assist energy providers in managing peak loads and optimizing grid efficiency.</p>
 <br>
@@ -76,6 +76,26 @@ It simulates the impact of rising summer temperatures and provides actionable in
   <li>Visualizes projected energy usage over time for selected homes, allowing users to anticipate and plan for potential peak loads.</li>
 </ul>
 <h4>🌍 Predicted County-Level Demand Map</h4>
+
+<br>
+<h1>🔮 Future Enhancements (Project-Specific)</h1>
+<ul>
+  <li><strong>Add Cost Estimation</strong><br>
+      Show estimated energy bills based on usage and utility rates.
+  </li>
+  <li><strong>Cluster Homes by Usage</strong><br>
+      Group buildings into segments (e.g., low, medium, high users) for comparison.
+  </li>
+  <li><strong>API Weather Forecast Integration</strong><br>
+      Predict near-future usage using real weather forecasts (OpenWeatherMap API).
+  </li>
+  <li><strong>Model Comparison Panel</strong><br>
+      Include XGBoost or Linear Regression alongside Random Forest for benchmark accuracy.
+  </li>
+  <li><strong>Personalized Energy Tips</strong><br>
+      Display energy-saving suggestions based on a home's size, usage, and appliance trends.
+  </li>
+</ul>
 <ul>
   <li>A second heatmap shows <strong>forecasted county-wise energy usage</strong> under the +5°F scenario.</li>
   <li>Enables comparison between current and predicted loads to support energy infrastructure planning and resilience strategies.</li>
