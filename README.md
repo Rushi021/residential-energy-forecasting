@@ -90,7 +90,9 @@ It simulates the impact of rising summer temperatures and provides actionable in
   <li>Enables comparison between current and predicted loads to support energy infrastructure planning and resilience strategies.</li>
 </ul>
 
-<h3>🧾 Final Project Code</h3>
+
+<br>
+<h1>🧾 Final Project Code</h1>
 <p>The complete R Markdown file for this project is now available here: <br><b>IST_687_Final_Project_Code.Rmd</b></p>
 <p>This file includes:</p>
 <ul>
