@@ -46,6 +46,19 @@ It simulates the impact of rising summer temperatures and provides actionable in
  </ul>
 
 
+ <h3>🧾 Final Project Code</h3>
+ <p>The complete R Markdown file for this project is now available here: 
+   <br>📄 <a href="./IST_687_Final_Project_Code.Rmd">IST_687_Final_Project_Code.Rmd</a></p>
+   <p>This file includes:</p>
+   <ul>
+     <li>Data cleaning, integration, and preprocessing</li>
+     <li>Feature engineering and exploratory visualizations</li>
+     <li>Forecast modeling using Random Forest</li> 
+     <li>Simulation analysis with a +5°F temperature increase</li>
+     <li>Statistical summaries and insights</li>
+   </ul>
+   
+
  <br>
  <h1>💻 Shiny Dashboard Features</h1>
  <p>This dashboard was developed to translate complex energy analytics into an accessible, interactive experience for non-technical users such as utility planners, energy analysts, and city administrators. Built using R and Shiny, it provides granular control over time, geography, and appliance-specific usage—allowing users to simulate real-world energy scenarios.</p>
