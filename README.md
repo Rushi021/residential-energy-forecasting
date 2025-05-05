@@ -48,3 +48,36 @@ It simulates the impact of rising summer temperatures and provides actionable in
 
  <br>
  <h1>💻 Shiny Dashboard Features</h1>
+ <p>This dashboard was developed to translate complex energy analytics into an accessible, interactive experience for non-technical users such as utility planners, energy analysts, and city administrators. Built using R and Shiny, it provides granular control over time, geography, and appliance-specific usage—allowing users to simulate real-world energy scenarios.</p>
+<h4>🔌 Energy Usage by Appliance</h4>
+<ul>
+  <li>Filter energy consumption data by <strong>Building ID</strong>, <strong>date range</strong>, <strong>hour of the day</strong>, and <strong>specific appliances</strong> (e.g., cooling systems, refrigerators, lighting).</li>
+  <li>View interactive time series plots that display usage trends by appliance and easily compare multiple energy sources with distinct color lines.</li>
+  <li>Ideal for understanding how different household systems contribute to overall energy demand.</li>
+</ul>
+<h4>📊 Usage Statistics Panel</h4>
+<ul>
+  <li>Automatically generates summary statistics for selected filters, including:</li>
+  <ul>
+    <li><strong>Mean</strong>, <strong>Max</strong>, and <strong>Min</strong> energy usage</li>
+    <li><strong>Timestamp</strong> of peak and lowest usage</li>
+  </ul>
+  <li>Helps users quickly grasp consumption patterns and identify extremes without needing to analyze raw data.</li>
+</ul>
+<h4>🗺️ County-Level Comparison</h4>
+<ul>
+  <li>Interactive <strong>leaflet map</strong> visualizes average energy usage across South Carolina counties.</li>
+  <li>Select different energy types (e.g., Cooling or Total Energy) to highlight usage intensity by region.</li>
+  <li>Color-coded heatmaps assist in identifying high-consumption areas potentially driven by local weather or home characteristics.</li>
+</ul>
+<h4>🔥 +5°F Predicted Usage Simulation</h4>
+<ul>
+  <li>Simulates the impact of a <strong>5°F temperature increase</strong> on energy demand using a trained <strong>Random Forest model</strong>.</li>
+  <li>Visualizes projected energy usage over time for selected homes, allowing users to anticipate and plan for potential peak loads.</li>
+</ul>
+<h4>🌍 Predicted County-Level Demand Map</h4>
+<ul>
+  <li>A second heatmap shows <strong>forecasted county-wise energy usage</strong> under the +5°F scenario.</li>
+  <li>Enables comparison between current and predicted loads to support energy infrastructure planning and resilience strategies.</li>
+</ul>
+
