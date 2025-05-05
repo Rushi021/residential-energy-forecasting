@@ -80,21 +80,11 @@ It simulates the impact of rising summer temperatures and provides actionable in
 <br>
 <h1>🔮 Future Enhancements (Project-Specific)</h1>
 <ul>
-  <li><strong>Add Cost Estimation</strong><br>
-      Show estimated energy bills based on usage and utility rates.
-  </li>
-  <li><strong>Cluster Homes by Usage</strong><br>
-      Group buildings into segments (e.g., low, medium, high users) for comparison.
-  </li>
-  <li><strong>API Weather Forecast Integration</strong><br>
-      Predict near-future usage using real weather forecasts (OpenWeatherMap API).
-  </li>
-  <li><strong>Model Comparison Panel</strong><br>
-      Include XGBoost or Linear Regression alongside Random Forest for benchmark accuracy.
-  </li>
-  <li><strong>Personalized Energy Tips</strong><br>
-      Display energy-saving suggestions based on a home's size, usage, and appliance trends.
-  </li>
+  <li><strong>Add Cost Estimation:</strong> Show estimated energy bills based on usage and utility rates.</li>
+  <li><strong>Cluster Homes by Usage:</strong> Group buildings into segments (e.g., low, medium, high users) for comparison.</li>
+  <li><strong>API Weather Forecast Integration:</strong> Predict near-future usage using real weather forecasts (OpenWeatherMap API).</li>
+  <li><strong>Model Comparison Panel:</strong> Include XGBoost or Linear Regression alongside Random Forest for benchmark accuracy.</li>
+  <li><strong>Personalized Energy Tips:</strong> Display energy-saving suggestions based on a home's size, usage, and appliance trends.</li>
 </ul>
 <ul>
   <li>A second heatmap shows <strong>forecasted county-wise energy usage</strong> under the +5°F scenario.</li>
