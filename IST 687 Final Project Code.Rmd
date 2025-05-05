@@ -1,0 +1,127 @@
+```{r}
+# Load libraries
+library(arrow)
+library(dplyr)
+library(lubridate)
+library(purrr)
+library(ggplot2)
+library(caret)
+library(e1071)
+library(xgboost)
+library(randomForest)
+library(Metrics)
+
+# Load static data
+static_url <- "https://intro-datascience.s3.us-east-2.amazonaws.com/SC-data/static_house_info.parquet"
+static_data <- read_parquet(static_url)
+all_ids <- static_data$bldg_id
+
+# Load and merge energy + weather for one house
+load_house_data <- function(bldg_id, static_data) {
+  county <- static_data[static_data$bldg_id == bldg_id, "in.county"][1]
+  if (is.na(county)) return(NULL)
+  energy_url <- paste0("https://intro-datascience.s3.us-east-2.amazonaws.com/SC-data/2023-houseData/", bldg_id, ".parquet")
+  weather_url <- paste0("https://intro-datascience.s3.us-east-2.amazonaws.com/SC-data/weather/2023-weather-data/", county, ".csv")
+  energy_data <- tryCatch(read_parquet(energy_url), error = function(e) return(NULL))
+  weather_data <- tryCatch(read.csv(weather_url), error = function(e) return(NULL))
+  if (is.null(energy_data) || is.null(weather_data)) return(NULL)
+  weather_data$date_time <- as.POSIXct(weather_data$date_time, format = "%Y-%m-%d %H:%M:%S", tz = "America/New_York")
+  weather_data$time <- weather_data$date_time - 3600
+  merged_data <- merge(energy_data, weather_data, by = "time")
+  if (nrow(merged_data) == 0) return(NULL)
+  elec_cols <- grep("^out\\.electricity\\.", names(merged_data), value = TRUE)
+  merged_data$total_energy_kwh <- rowSums(merged_data[, elec_cols], na.rm = TRUE)
+  merged_data <- merged_data[month(merged_data$time) == 7 & year(merged_data$time) == 2018, ]
+  if (nrow(merged_data) == 0) return(NULL)
+  merged_data$bldg_id <- bldg_id
+  return(merged_data)
+}
+
+# Build and save batches 1–12
+house_chunks <- split(all_ids, ceiling(seq_along(all_ids) / 500))
+dir.create("july_batches", showWarnings = FALSE)
+for (i in 1:12) {
+  chunk_ids <- house_chunks[[i]]
+  batch <- map_dfr(chunk_ids, load_house_data, static_data = static_data)
+  batch <- batch |> filter(!is.na(time))
+  saveRDS(batch, paste0("july_batches/batch_", i, ".rds"))
+}
+
+# Combine all batches
+batch_files <- list.files("july_batches", pattern = "batch_\\d+\\.rds$", full.names = TRUE)
+full_data <- map_dfr(batch_files, readRDS)
+full_data <- left_join(full_data, static_data, by = "bldg_id")
+saveRDS(full_data, "full_july_energy_dataset.rds")
+
+# Graphs for EDA
+full_data %>%
+  mutate(hour = hour(time)) %>%
+  group_by(hour) %>%
+  summarise(avg_kwh = mean(total_energy_kwh, na.rm = TRUE)) %>%
+  ggplot(aes(x = hour, y = avg_kwh)) +
+  geom_line()
+
+full_data %>%
+  sample_n(100000) %>%
+  ggplot(aes(x = `Dry.Bulb.Temperature...C.`, y = total_energy_kwh)) +
+  geom_point(alpha = 0.1) +
+  geom_smooth(method = "loess", se = FALSE)
+
+# Linear Regression Model
+linear_data <- full_data %>%
+  filter(total_energy_kwh >= 0) %>%
+  mutate(hour = hour(time), temp_c = `Dry.Bulb.Temperature...C.`, bedrooms = as.factor(in.bedrooms), sqft = in.geometry_floor_area) %>%
+  select(total_energy_kwh, hour, temp_c, bedrooms, sqft) %>%
+  na.omit()
+
+set.seed(42)
+split_index <- createDataPartition(linear_data$total_energy_kwh, p = 0.8, list = FALSE)
+train_data <- linear_data[split_index, ]
+test_data <- linear_data[-split_index, ]
+lm_model <- lm(total_energy_kwh ~ hour + temp_c + bedrooms + sqft, data = train_data)
+lm_preds <- predict(lm_model, newdata = test_data)
+lm_rmse <- RMSE(lm_preds, test_data$total_energy_kwh)
+lm_r2   <- R2(lm_preds, test_data$total_energy_kwh)
+
+# SVM Model
+set.seed(123)
+svm_data <- full_data %>%
+  mutate(hour = hour(time), temp_c = `Dry.Bulb.Temperature...C.`, sqft_bin = in.geometry_floor_area_bin, bedrooms = as.factor(in.bedrooms)) %>%
+  select(total_energy_kwh, hour, temp_c, bedrooms, sqft_bin) %>%
+  sample_n(100000) %>%
+  na.omit()
+
+svm_data <- dummyVars(" ~ .", data = svm_data) %>% predict(newdata = svm_data) %>% as.data.frame()
+scaled_data <- as.data.frame(scale(svm_data))
+train_indices <- sample(1:nrow(scaled_data), 0.7 * nrow(scaled_data))
+train_data <- scaled_data[train_indices, ]
+test_data <- scaled_data[-train_indices, ]
+svm_model <- svm(total_energy_kwh ~ ., data = train_data)
+svm_preds <- predict(svm_model, test_data)
+svm_rmse <- sqrt(mean((svm_preds - test_data$total_energy_kwh)^2))
+svm_r2 <- cor(svm_preds, test_data$total_energy_kwh)^2
+
+# Random Forest Model
+set.seed(42)
+df_rf <- full_data %>%
+  filter(total_energy_kwh >= 0) %>%
+  mutate(hour = hour(time)) %>%
+  select(total_energy_kwh, hour, `Dry.Bulb.Temperature...C.`, `Relative.Humidity....`, in.sqft, in.bedrooms) %>%
+  na.omit() %>%
+  sample_n(20000)
+
+rf_model <- randomForest(total_energy_kwh ~ ., data = df_rf, ntree = 100, importance = TRUE)
+df_rf$predicted <- predict(rf_model, df_rf)
+rf_rmse <- RMSE(df_rf$predicted, df_rf$total_energy_kwh)
+rf_r2 <- R2(df_rf$predicted, df_rf$total_energy_kwh)
+
+# Climate Impact Scenario (+5°C)
+df_rf_warmer <- df_rf
+df_rf_warmer$`Dry.Bulb.Temperature...C.` <- df_rf_warmer$`Dry.Bulb.Temperature...C.` + 5
+df_rf_warmer$predicted_energy_kwh <- predict(rf_model, newdata = df_rf_warmer)
+original_mean <- mean(df_rf$predicted)
+warmer_mean <- mean(df_rf_warmer$predicted_energy_kwh)
+increase_pct <- 100 * (warmer_mean - original_mean) / original_mean
+
+```
+
