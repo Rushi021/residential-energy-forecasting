@@ -1,4 +1,3 @@
-```{r}
 # Load libraries
 library(arrow)
 library(dplyr)
@@ -122,6 +121,4 @@ df_rf_warmer$predicted_energy_kwh <- predict(rf_model, newdata = df_rf_warmer)
 original_mean <- mean(df_rf$predicted)
 warmer_mean <- mean(df_rf_warmer$predicted_energy_kwh)
 increase_pct <- 100 * (warmer_mean - original_mean) / original_mean
-
-```
 
