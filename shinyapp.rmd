@@ -1,0 +1,94 @@
+# 📦 Load necessary libraries
+library(shiny)
+library(dplyr)
+library(ggplot2)
+library(readr)
+library(randomForest)
+library(lubridate)
+
+# 💾 Load cleaned dataset and final model
+full_data <- readRDS("july_sample_100k.rds")
+rf_model <- readRDS("rf_model.rds")  # Make sure you've saved your model with this exact name
+
+# UI
+ui <- fluidPage(
+  titlePanel("⚡ eSC Energy Usage Forecast"),
+  
+  sidebarLayout(
+    sidebarPanel(
+      numericInput("n_rows", "Number of Rows to Display:", value = 10, min = 1),
+      hr(),
+      h4("Predict Energy Usage (per hour)"),
+      numericInput("hour", "Hour of Day (0–23):", value = 14, min = 0, max = 23),
+      numericInput("temp", "Temperature (°C):", value = 30),
+      numericInput("humidity", "Humidity (%):", value = 50),
+      numericInput("sqft", "House Area (sqft):", value = 2500),
+      numericInput("bedrooms", "Number of Bedrooms:", value = 3),
+      actionButton("predict_btn", "Generate Prediction")
+    ),
+    
+    mainPanel(
+      tabsetPanel(
+        tabPanel("1. Data Preview", DT::dataTableOutput("data_table")),
+        tabPanel("2. Key Drivers", 
+                 plotOutput("usage_by_hour"),
+                 plotOutput("usage_by_temp")),
+        tabPanel("3. Model Prediction",
+                 verbatimTextOutput("prediction"),
+                 h5("📘 How to Interpret the Output:"),
+                 p("This prediction represents the expected hourly electricity usage (in kWh) based on the inputs."),
+                 p("The model was trained using Random Forest on July 2018 data with 20,000 samples."),
+                 p("Predictions take into account the impact of temperature, humidity, home size, and time of day."))
+      )
+    )
+  )
+)
+
+# Server
+server <- function(input, output) {
+  
+  # 🧮 Preview of data
+  output$data_table <- DT::renderDataTable({
+    head(full_data, input$n_rows)
+  })
+  
+  # 📊 Key driver plots
+  output$usage_by_hour <- renderPlot({
+    full_data %>%
+      mutate(hour = hour(time)) %>%
+      group_by(hour) %>%
+      summarise(avg_kwh = mean(total_energy_kwh, na.rm = TRUE)) %>%
+      ggplot(aes(x = hour, y = avg_kwh)) +
+      geom_line(color = "steelblue", size = 1.2) +
+      labs(title = "Avg Hourly Energy Usage", x = "Hour", y = "kWh")
+  })
+  
+  output$usage_by_temp <- renderPlot({
+    full_data %>%
+      sample_n(10000) %>%
+      ggplot(aes(x = `Dry.Bulb.Temperature...C.`, y = total_energy_kwh)) +
+      geom_point(alpha = 0.1, color = "darkred") +
+      geom_smooth(method = "loess", se = FALSE, color = "black") +
+      labs(title = "Energy Usage vs Temperature", x = "Temperature (°C)", y = "kWh")
+  })
+  
+  # 🔮 Prediction
+  observeEvent(input$predict_btn, {
+    new_data <- data.frame(
+      hour = input$hour,
+      `Dry.Bulb.Temperature...C.` = input$temp,
+      `Relative.Humidity....` = input$humidity,
+      in.sqft = input$sqft,
+      in.bedrooms = input$bedrooms
+    )
+    
+    pred <- predict(rf_model, newdata = new_data)
+    
+    output$prediction <- renderPrint({
+      cat("🔋 Predicted Energy Usage:", round(pred, 2), "kWh")
+    })
+  })
+}
+
+# Launch App
+shinyApp(ui = ui, server = server)
